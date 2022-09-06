@@ -6,7 +6,7 @@ import { CartContext } from "../../context/cart.context";
 
 import "./cart-icon.styles.scss";
 
-const CartIcon = () => {
+const CartIcon = (props) => {
     const { isCartOpen, setIsCartOpen } = useContext(CartContext);
 
     const toggleIsCartOpen = () => {
