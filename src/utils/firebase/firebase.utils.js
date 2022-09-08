@@ -52,20 +52,13 @@ export const addCollectionAndDocs = async (collectionKey, objectsToAdd) => {
     });
 
     await batch.commit();
-    console.log("Done");
 };
 
 export const getCategoriesAndDocs = async () => {
     const collRef = collection(db, "categories");
     const q = query(collRef);
     const querySnapshot = await getDocs(q);
-    const categoryMap = querySnapshot.docs.reduce((acc, docSnap) => {
-        const { title, items } = docSnap.data();
-        acc[title.toLowerCase()] = items;
-        return acc;
-    }, {});
-
-    return categoryMap;
+    return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 };
 
 export const createUserDocFromAuth = async (
