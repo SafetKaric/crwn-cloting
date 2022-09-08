@@ -1,20 +1,30 @@
 import { createContext, useReducer } from "react";
 
 const INITIAL_STATE = {
-    isCartOpen: true,
+    isCartOpen: false,
     cartItems: [],
     cartCount: 0,
     cartTotal: 0,
+};
+
+const CART_ACTIONS = {
+    SET_CART_ITEMS: "SET_CART_ITEMS",
+    SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
 };
 
 const CartReducer = (state, action) => {
     const { type, payload } = action;
 
     switch (type) {
-        case "SET_CART_ITEMS":
+        case CART_ACTIONS.SET_CART_ITEMS:
             return {
                 ...state,
                 ...payload,
+            };
+        case CART_ACTIONS.SET_IS_CART_OPEN:
+            return {
+                ...state,
+                isCartOpen: payload,
             };
         default:
             throw new Error(`Unhendled type ${type} in CartReducer`);
@@ -112,12 +122,16 @@ export const CartProvider = ({ children }) => {
         upateCartItemsReducer(newCardItems);
     };
 
+    const setIsCartOpen = (bool) => {
+        dispatch({ type: "SET_IS_CART_OPEN", payload: bool });
+    };
+
     const value = {
         isCartOpen,
         cartItems,
         cartCount,
         cartTotal,
-        setIsCartOpen: () => true,
+        setIsCartOpen,
         addItemToCart,
         removeItemFromCart,
         clearItemFromCart,
